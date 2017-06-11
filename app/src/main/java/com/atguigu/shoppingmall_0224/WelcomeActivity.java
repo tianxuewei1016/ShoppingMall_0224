@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 
+import com.atguigu.shoppingmall_0224.activity.MainActivity;
+
 public class WelcomeActivity extends AppCompatActivity {
 
     @Override
