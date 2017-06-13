@@ -19,5 +19,10 @@
         <item name="android:textSize">10sp</item>
         <item name="android:gravity">center</item>
     </style>
+    <!--解决第一次安装程序欢迎页面有白屏的问题-->
+    <style name="Theme.AppStartLoadTranslucent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 
 </resources>

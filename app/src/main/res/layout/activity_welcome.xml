@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context="com.atguigu.shoppingmall_0224.WelcomeActivity">
+    tools:context="com.atguigu.shoppingmall_0224.activity.WelcomeActivity">
 
     <ImageView
         android:layout_width="wrap_content"
