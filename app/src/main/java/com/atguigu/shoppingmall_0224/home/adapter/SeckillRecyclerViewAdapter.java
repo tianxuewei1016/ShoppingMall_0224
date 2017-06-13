@@ -21,7 +21,7 @@ import butterknife.InjectView;
 /**
  * 作者：田学伟 on 2017/6/13 08:41
  * QQ：93226539
- * 作用：
+ * 作用：秒杀的适配器
  */
 
 public class SeckillRecyclerViewAdapter extends RecyclerView.Adapter<SeckillRecyclerViewAdapter.MyViewHolder> {

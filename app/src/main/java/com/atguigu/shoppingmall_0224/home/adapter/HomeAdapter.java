@@ -1,6 +1,7 @@
 package com.atguigu.shoppingmall_0224.home.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atguigu.shoppingmall_0224.R;
+import com.atguigu.shoppingmall_0224.activity.GoodsInfoActivity;
+import com.atguigu.shoppingmall_0224.home.bean.GoodsBean;
 import com.atguigu.shoppingmall_0224.home.bean.HomeBean;
 import com.atguigu.shoppingmall_0224.home.view.MyGridView;
 import com.atguigu.shoppingmall_0224.utils.Constants;
@@ -39,6 +42,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 只有一个布局的话可以写泛型
  */
 public class HomeAdapter extends RecyclerView.Adapter {
+    public static final String GOODS_BEAN = "goodsBean";
     /**
      * 横幅广告-要从0开
      */
@@ -356,11 +360,27 @@ public class HomeAdapter extends RecyclerView.Adapter {
             ButterKnife.inject(this, itemView);
         }
 
-        public void setData(List<HomeBean.ResultEntity.HotInfoEntity> hot_info) {
+        public void setData(final List<HomeBean.ResultEntity.HotInfoEntity> hot_info) {
             adapter = new HotGridViewAdapter(mContext, hot_info);
             gvHot.setAdapter(adapter);
 
             //设置点击事件
+            gvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    HomeBean.ResultEntity.HotInfoEntity hotInfoEntity = hot_info.get(position);
+                    GoodsBean goodsBean = new GoodsBean();
+                    goodsBean.setProduct_id(hotInfoEntity.getProduct_id());
+                    goodsBean.setCover_price(hotInfoEntity.getCover_price());
+                    goodsBean.setFigure(hotInfoEntity.getFigure());
+                    goodsBean.setName(hotInfoEntity.getName());
+
+                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                    intent.putExtra(GOODS_BEAN, goodsBean);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 }
