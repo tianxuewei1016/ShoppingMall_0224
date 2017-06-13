@@ -273,7 +273,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
                     WebViewBean webViewBean = new WebViewBean();
                     webViewBean.setName(actInfoEntity.getName());
                     webViewBean.setIcon_url(actInfoEntity.getIcon_url());
-                    webViewBean.setUrl(actInfoEntity.getUrl());
+                    webViewBean.setUrl(Constants.BASE_URL_IMAGE + actInfoEntity.getUrl());
 
                     Intent intent = new Intent(mContext, WebViewActivity.class);
                     intent.putExtra(WEBVIEW_BEAN, webViewBean);
@@ -395,7 +395,6 @@ public class HomeAdapter extends RecyclerView.Adapter {
                     goodsBean.setCover_price(infoEntity.getCover_price());
                     goodsBean.setFigure(infoEntity.getFigure());
                     goodsBean.setProduct_id(infoEntity.getProduct_id());
-
                     Intent intent = new Intent(mContext, GoodsInfoActivity.class);
                     intent.putExtra(GOODS_BEAN, goodsBean);
                     mContext.startActivity(intent);
