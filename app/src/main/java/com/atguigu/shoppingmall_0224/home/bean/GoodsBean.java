@@ -29,7 +29,7 @@ public class GoodsBean implements Serializable {
     /**
      * 是否选中
      */
-    private boolean isChecked =true;
+    private boolean isChecked = true;
 
     public boolean isChecked() {
         return isChecked;

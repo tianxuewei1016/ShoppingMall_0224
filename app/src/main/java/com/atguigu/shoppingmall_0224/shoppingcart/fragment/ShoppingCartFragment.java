@@ -74,7 +74,7 @@ public class ShoppingCartFragment extends BaseFragment {
     public void initData() {
         super.initData();
 //        Log.e("TAG", "购物车的数据被初始化了...");
-        ArrayList<GoodsBean> allData = CartStorage.getInstance(MyApplication.getContext()).getAllData();
+//        ArrayList<GoodsBean> allData = CartStorage.getInstance(MyApplication.getContext()).getAllData();
 //        for (int i = 0; i < allData.size(); i++) {
 //            Log.e("TAG", "" + allData.get(i).toString());
 //        }
@@ -91,6 +91,12 @@ public class ShoppingCartFragment extends BaseFragment {
             //没有数据-空布局显示
             llEmptyShopcart.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 
     @OnClick({R.id.tv_shopcart_edit, R.id.checkbox_all, R.id.btn_check_out, R.id.cb_all, R.id.btn_delete, R.id.btn_collection, R.id.tv_empty_cart_tobuy})
