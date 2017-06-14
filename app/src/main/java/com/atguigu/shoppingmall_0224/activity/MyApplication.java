@@ -15,9 +15,19 @@ import okhttp3.OkHttpClient;
  */
 
 public class MyApplication extends Application{
+    private static MyApplication instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
+        initOkhttpUtils();
+    }
+    public static MyApplication getContext(){
+        return instance;
+    }
+
+    private void initOkhttpUtils() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))
                 .connectTimeout(5000L, TimeUnit.MILLISECONDS)
