@@ -28,10 +28,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
     private final Context mContext;
     private final ArrayList<GoodsBean> datas;
+    private final CheckBox checkboxAll;
+    private final TextView tvShopcartTotal;
+    private final CheckBox cbAll;
 
-    public ShoppingCartAdapter(Context mContext, ArrayList<GoodsBean> datas) {
+    public ShoppingCartAdapter(Context mContext, ArrayList<GoodsBean> datas, CheckBox checkboxAll, TextView tvShopcartTotal, CheckBox cbAll) {
         this.mContext = mContext;
         this.datas = datas;
+        this.checkboxAll = checkboxAll;
+        this.tvShopcartTotal = tvShopcartTotal;
+        this.cbAll = cbAll;
+        showTotalPrice();
+        checkAll();
     }
 
     @Override
@@ -87,8 +95,55 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
                     //刷新适配器
                     notifyDataSetChanged();
+
+                    //重新显示总价格
+                    showTotalPrice();
+                    //校验是否全选
+                    checkAll();
                 }
             });
         }
+    }
+
+    private void checkAll() {
+        if (datas != null && datas.size() > 0) {
+            int number = 0;
+            for (int i = 0; i < datas.size(); i++) {
+                GoodsBean goodsBean = datas.get(i);
+                //只要有一个不选中就设置非全选
+                if (!goodsBean.isChecked()) {
+                    cbAll.setChecked(false);
+                    checkboxAll.setChecked(false);
+                } else {
+                    number++;
+                }
+            }
+            if (number == datas.size()) {
+                cbAll.setChecked(true);
+                checkboxAll.setChecked(true);
+            }
+        } else {
+            //没有数据
+            cbAll.setChecked(false);
+            checkboxAll.setChecked(false);
+        }
+    }
+
+    public void showTotalPrice() {
+        tvShopcartTotal.setText("合计:" + getTotalPrice());
+    }
+
+    private double getTotalPrice() {
+        double result = 0;
+        if (datas != null && datas.size() > 0) {
+            for (int i = 0; i < datas.size(); i++) {
+                GoodsBean goodsBean = datas.get(i);
+                //判断是否勾选
+                if (goodsBean.isChecked()) {
+                    result = result + goodsBean.getNumber() * Double.parseDouble(goodsBean.getCover_price());
+                }
+            }
+        }
+        return result;
     }
 }
