@@ -89,4 +89,6 @@ public class GoodsBean implements Serializable {
                 ", number=" + number +
                 '}';
     }
+
+
 }
