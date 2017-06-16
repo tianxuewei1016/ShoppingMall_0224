@@ -2,6 +2,7 @@ package com.atguigu.shoppingmall_0224.type.fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.atguigu.shoppingmall_0224.R;
@@ -28,7 +29,7 @@ public class ListFragment extends BaseFragment {
     private String[] titles = new String[]{"小裙子", "上衣", "下装", "外套", "配件", "包包", "装扮", "居家宅品",
             "办公文具", "数码周边", "游戏专区"};
 
-    private TypeLeftAdapter adapter;
+    private TypeLeftAdapter typeLeftAdapter;
     @Override
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_list, null);
@@ -44,8 +45,19 @@ public class ListFragment extends BaseFragment {
     public void initData() {
         super.initData();
         //设置左边的适配器
-        adapter = new TypeLeftAdapter(mContext,titles);
-        lvLeft.setAdapter(adapter);
+        typeLeftAdapter = new TypeLeftAdapter(mContext,titles);
+        lvLeft.setAdapter(typeLeftAdapter);
+
+        //设置监听点击ListView的item的点击事件，并且点击的时候变效果
+        lvLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //1.记录点击的位置
+                typeLeftAdapter.changeSelectPosition(position);
+                //2.适配器刷新
+                typeLeftAdapter.notifyDataSetChanged();//getView
+            }
+        });
     }
 
     @Override
