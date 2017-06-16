@@ -33,7 +33,9 @@ import butterknife.InjectView;
 
 public class TypeRightAdapter extends RecyclerView.Adapter {
     private final Context mContext;
-    private List<TypeBean.ResultEntity> datas;
+    private final List<TypeBean.ResultEntity.ChildEntity> datas;
+
+
     private List<TypeBean.ResultEntity.HotProductListEntity> hot_product_list;
 
     private LayoutInflater inflater;
@@ -49,7 +51,7 @@ public class TypeRightAdapter extends RecyclerView.Adapter {
 
     public TypeRightAdapter(Context mContext, List<TypeBean.ResultEntity> result) {
         this.mContext = mContext;
-        this.datas = result;
+        datas = result.get(0).getChild();//得到-常用分类
         hot_product_list = result.get(0).getHot_product_list();//热卖数据集合
         inflater = LayoutInflater.from(mContext);
     }
@@ -66,13 +68,15 @@ public class TypeRightAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 1 + datas.size();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HOT) {
             return new HotViewHolder(inflater.inflate(R.layout.item_hot_right, null));
+        } else if (viewType == COMMON) {
+            return new CommonViewHolder(inflater.inflate(R.layout.item_common_right, null));
         }
         return null;
     }
@@ -82,6 +86,10 @@ public class TypeRightAdapter extends RecyclerView.Adapter {
         if (getItemViewType(position) == HOT) {
             HotViewHolder viewHolder = (HotViewHolder) holder;
             viewHolder.setData(hot_product_list);
+        } else if (getItemViewType(position) == COMMON) {
+            CommonViewHolder viewHolder = (CommonViewHolder) holder;
+            int realPostion = position - 1;
+            viewHolder.setData(datas.get(realPostion));
         }
     }
 
@@ -127,10 +135,10 @@ public class TypeRightAdapter extends RecyclerView.Adapter {
                 textView.setTextColor(Color.parseColor("#ed3f3f"));
                 textView.setText("￥" + bean.getCover_price());
                 //把文本添加到线性布局
-                layout.addView(textView,tvParams);
+                layout.addView(textView, tvParams);
 
                 //把每个线性布局添加到外部的线性布局中
-                llHotRight.addView(layout,params);
+                llHotRight.addView(layout, params);
                 //设置item的点击事件
                 layout.setTag(i);
 
@@ -138,10 +146,40 @@ public class TypeRightAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         int position = (int) v.getTag();
-                        Toast.makeText(mContext, "position=="+hot_product_list.get(position).getCover_price(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "position==" + hot_product_list.get(position).getCover_price(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
+        }
+    }
+
+    class CommonViewHolder extends RecyclerView.ViewHolder {
+        @InjectView(R.id.iv_ordinary_right)
+        ImageView ivOrdinaryRight;
+        @InjectView(R.id.tv_ordinary_right)
+        TextView tvOrdinaryRight;
+        @InjectView(R.id.ll_root)
+        LinearLayout llRoot;
+
+        public CommonViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.inject(this, itemView);
+        }
+
+        public void setData(final TypeBean.ResultEntity.ChildEntity resultEntity) {
+            //请求图片
+            Glide.with(mContext)
+                    .load(Constants.BASE_URL_IMAGE + resultEntity.getPic())
+                    .into(ivOrdinaryRight);
+            //设置文本
+            tvOrdinaryRight.setText(resultEntity.getName());
+
+            llRoot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, "" + resultEntity.getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
