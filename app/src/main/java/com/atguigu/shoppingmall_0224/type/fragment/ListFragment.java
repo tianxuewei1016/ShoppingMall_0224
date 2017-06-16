@@ -1,5 +1,6 @@
 package com.atguigu.shoppingmall_0224.type.fragment;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -10,10 +11,13 @@ import com.alibaba.fastjson.JSON;
 import com.atguigu.shoppingmall_0224.R;
 import com.atguigu.shoppingmall_0224.base.BaseFragment;
 import com.atguigu.shoppingmall_0224.type.adapter.TypeLeftAdapter;
+import com.atguigu.shoppingmall_0224.type.adapter.TypeRightAdapter;
 import com.atguigu.shoppingmall_0224.type.bean.TypeBean;
 import com.atguigu.shoppingmall_0224.utils.Constants;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -39,6 +43,11 @@ public class ListFragment extends BaseFragment {
             Constants.ACCESSORY_URL, Constants.BAG_URL, Constants.DRESS_UP_URL, Constants.HOME_PRODUCTS_URL, Constants.STATIONERY_URL,
             Constants.DIGIT_URL, Constants.GAME_URL};
     private TypeLeftAdapter typeLeftAdapter;
+    /**
+     * RecyclerView的适配器
+     */
+    private TypeRightAdapter rightAdapter;
+    private List<TypeBean.ResultEntity> result;
 
     @Override
     public View initView() {
@@ -99,13 +108,30 @@ public class ListFragment extends BaseFragment {
     private void processData(String json) {
         TypeBean typeBean = JSON.parseObject(json, TypeBean.class);
         Log.e("TAG", "解析成功==" + typeBean.getResult().get(0).getName());
+        result = typeBean.getResult();
+        if (result != null && result.size() > 0) {
+            rightAdapter = new TypeRightAdapter(mContext, result);
+            rvRight.setAdapter(rightAdapter);
+
+            //设置布局管理器
+            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (position == 0) {
+                        return 3;
+                    } else {
+                        return 1;
+                    }
+                }
+            });
+            rvRight.setLayoutManager(manager);
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-
-
     }
 }
