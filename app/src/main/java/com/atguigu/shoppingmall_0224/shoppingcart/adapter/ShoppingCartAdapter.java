@@ -81,6 +81,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 //更新存储到本地或者服务器上
                 CartStorage.getInstance(MyApplication.getContext()).updateData(goodsBean);
 
+                showTotalPrice();
             }
         });
     }

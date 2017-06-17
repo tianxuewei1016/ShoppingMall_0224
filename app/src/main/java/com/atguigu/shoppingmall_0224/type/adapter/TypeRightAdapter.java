@@ -13,7 +13,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.atguigu.shoppingmall_0224.R;
 import com.atguigu.shoppingmall_0224.activity.GoodsInfoActivity;
@@ -150,12 +149,32 @@ public class TypeRightAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         int position = (int) v.getTag();
-                        Toast.makeText(mContext, "position==" + hot_product_list.get(position).getCover_price(), Toast.LENGTH_SHORT).show();
+
+//                        Toast.makeText(mContext, "position==" + hot_product_list.get(position).getCover_price(), Toast.LENGTH_SHORT).show();
+//                        int position = (int) v.getTag();
+//                        Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+
+                        String cover_price = hot_product_list.get(position).getCover_price();
+                        String name = hot_product_list.get(position).getName();
+                        String figure = hot_product_list.get(position).getFigure();
+                        String product_id = hot_product_list.get(position).getProduct_id();
+
+                        //创建商品Bean对象
+                        GoodsBean goodsBean = new GoodsBean();
+                        goodsBean.setProduct_id(product_id);
+                        goodsBean.setFigure(figure);
+                        goodsBean.setCover_price(cover_price);
+                        goodsBean.setName(name);
+
+                        Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                        intent.putExtra(HomeAdapter.GOODS_BEAN, goodsBean);
+                        mContext.startActivity(intent);
                     }
                 });
             }
         }
     }
+
 
     class CommonViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.iv_ordinary_right)
@@ -183,7 +202,7 @@ public class TypeRightAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
 //                    Toast.makeText(mContext, "" + resultEntity.getName(), Toast.LENGTH_SHORT).show();
-//                    int position = (int) v.getTag();
+//                    int position = getLayoutPosition();
                     String cover_price = hot_product_list.get(getLayoutPosition()).getCover_price();
                     String name = hot_product_list.get(getLayoutPosition()).getName();
                     String figure = hot_product_list.get(getLayoutPosition()).getFigure();
@@ -191,10 +210,11 @@ public class TypeRightAdapter extends RecyclerView.Adapter {
 
                     //创建商品Bean对象
                     GoodsBean goodsBean = new GoodsBean();
+                    goodsBean.setProduct_id(product_id);
+                    goodsBean.setFigure(figure);
                     goodsBean.setCover_price(cover_price);
                     goodsBean.setName(name);
-                    goodsBean.setFigure(figure);
-                    goodsBean.setProduct_id(product_id);
+
 
                     Intent intent = new Intent(mContext, GoodsInfoActivity.class);
                     intent.putExtra(HomeAdapter.GOODS_BEAN, goodsBean);
