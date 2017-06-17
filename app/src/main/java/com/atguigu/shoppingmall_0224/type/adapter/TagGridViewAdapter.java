@@ -30,6 +30,7 @@ public class TagGridViewAdapter extends BaseAdapter {
             Color.parseColor("#f0839a"), Color.parseColor("#f0a420"), Color.parseColor("#4ba5e2")
     };
 
+
     public TagGridViewAdapter(Context mContext, List<TagBean.ResultEntity> result) {
         this.mContext = mContext;
         this.datas = result;
