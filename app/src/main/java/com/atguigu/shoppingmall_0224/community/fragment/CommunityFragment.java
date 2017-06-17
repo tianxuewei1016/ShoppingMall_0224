@@ -1,5 +1,6 @@
 package com.atguigu.shoppingmall_0224.community.fragment;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageButton;
@@ -30,6 +31,8 @@ public class CommunityFragment extends BaseFragment {
     ImageButton ibCommunityMessage;
     @InjectView(R.id.view_pager)
     ViewPager viewPager;
+    @InjectView(R.id.tablayout)
+    TabLayout tablayout;
 
     private ArrayList<BaseFragment> fragments;
     private CommunityViewPagerAdapter pagerAdapter;
@@ -56,6 +59,8 @@ public class CommunityFragment extends BaseFragment {
         //设置适配器
         pagerAdapter = new CommunityViewPagerAdapter(mainActivity.getSupportFragmentManager(), fragments);
         viewPager.setAdapter(pagerAdapter);
+
+        tablayout.setupWithViewPager(viewPager);
     }
 
     @Override
