@@ -43,4 +43,5 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     //弹幕OpenDanmaku
     compile 'com.linsea:opendanmaku:1.0.0@aar'
+    compile project(':gradationscroll')
 }
