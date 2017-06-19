@@ -1,8 +1,10 @@
 package com.atguigu.shoppingmall_0224.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +16,11 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.atguigu.shoppingmall_0224.R;
+import com.atguigu.shoppingmall_0224.activity.GoodsInfoActivity;
+import com.atguigu.shoppingmall_0224.home.adapter.GoodsListAdapter;
+import com.atguigu.shoppingmall_0224.home.bean.GoodsBean;
 import com.atguigu.shoppingmall_0224.home.bean.TypeListBean;
+import com.atguigu.shoppingmall_0224.home.view.SpaceItemDecoration;
 import com.atguigu.shoppingmall_0224.utils.Constants;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -23,6 +29,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import okhttp3.Call;
+
+import static com.atguigu.shoppingmall_0224.home.adapter.HomeAdapter.GOODS_BEAN;
 
 public class GoodsListActivity extends AppCompatActivity {
 
@@ -48,6 +56,7 @@ public class GoodsListActivity extends AppCompatActivity {
     RecyclerView recyclerview;
     @InjectView(R.id.dl_left)
     DrawerLayout dlLeft;
+    private GoodsListAdapter goodsListAdapter;
 
     private String[] urls = new String[]{
             Constants.CLOSE_STORE,
@@ -107,6 +116,31 @@ public class GoodsListActivity extends AppCompatActivity {
     private void processData(String json) {
         TypeListBean typeListBean = JSON.parseObject(json, TypeListBean.class);
         Log.e("TAG", "解析成功==" + typeListBean.getResult().getPage_data().get(0).getName());
+
+        goodsListAdapter = new GoodsListAdapter(this, typeListBean.getResult().getPage_data());
+        recyclerview.setAdapter(goodsListAdapter);
+
+        //布局管理器
+        recyclerview.setLayoutManager(new GridLayoutManager(GoodsListActivity.this, 2));
+        //设置分割线
+        recyclerview.addItemDecoration(new SpaceItemDecoration(10));
+
+        //设置item的点击事件
+        goodsListAdapter.setOnItemClickListener(new GoodsListAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(TypeListBean.ResultEntity.PageDataEntity dataBean) {
+
+                //传递数据
+                GoodsBean goodsBean = new GoodsBean();
+                goodsBean.setName(dataBean.getName());
+                goodsBean.setCover_price(dataBean.getCover_price());
+                goodsBean.setFigure(dataBean.getFigure());
+                goodsBean.setProduct_id(dataBean.getProduct_id());
+                Intent intent = new Intent(GoodsListActivity.this, GoodsInfoActivity.class);
+                intent.putExtra(GOODS_BEAN, goodsBean);
+                startActivity(intent);
+            }
+        });
     }
 
     @OnClick({R.id.ib_goods_list_back, R.id.tv_goods_list_search, R.id.ib_goods_list_home, R.id.tv_goods_list_sort, R.id.tv_goods_list_price, R.id.tv_goods_list_select})
