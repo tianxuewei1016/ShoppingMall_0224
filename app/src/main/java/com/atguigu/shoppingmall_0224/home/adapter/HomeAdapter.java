@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.atguigu.shoppingmall_0224.R;
 import com.atguigu.shoppingmall_0224.activity.GoodsInfoActivity;
 import com.atguigu.shoppingmall_0224.activity.WebViewActivity;
+import com.atguigu.shoppingmall_0224.home.activity.GoodsListActivity;
 import com.atguigu.shoppingmall_0224.home.bean.GoodsBean;
 import com.atguigu.shoppingmall_0224.home.bean.HomeBean;
 import com.atguigu.shoppingmall_0224.home.bean.WebViewBean;
@@ -238,7 +238,11 @@ public class HomeAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     HomeBean.ResultEntity.ChannelInfoEntity channelInfoEntity = channel_info.get(position);
-                    Toast.makeText(mContext, "" + channelInfoEntity.getChannel_name(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "" + channelInfoEntity.getChannel_name(), Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(mContext,GoodsListActivity.class);
+                    intent.putExtra("position",position);
+                    mContext.startActivity(intent);
                 }
             });
         }
