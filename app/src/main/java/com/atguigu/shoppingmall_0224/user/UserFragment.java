@@ -1,5 +1,6 @@
 package com.atguigu.shoppingmall_0224.user;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -7,9 +8,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.atguigu.shoppingmall_0224.R;
+import com.atguigu.shoppingmall_0224.activity.LoginActivity;
 import com.atguigu.shoppingmall_0224.base.BaseFragment;
 import com.hankkin.gradationscroll.GradationScrollView;
 
@@ -24,7 +25,6 @@ import butterknife.OnClick;
  */
 
 public class UserFragment extends BaseFragment {
-
 
     @InjectView(R.id.ib_user_icon_avator)
     ImageButton ibUserIconAvator;
@@ -135,6 +135,8 @@ public class UserFragment extends BaseFragment {
 
     @OnClick(R.id.tv_username)
     public void onViewClicked() {
-        Toast.makeText(mContext, "aaaaaaaa", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "aaaaaaaa", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(mContext, LoginActivity.class);
+        startActivity(intent);
     }
 }

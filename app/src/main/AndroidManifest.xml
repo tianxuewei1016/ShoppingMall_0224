@@ -30,7 +30,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.GoodsInfoActivity" />
         <activity android:name=".activity.WebViewActivity" />
-        <activity android:name=".activity.CallCenterActivity"></activity>
+        <activity android:name=".activity.CallCenterActivity" />
         <!-- alipay sdk begin -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -38,6 +38,7 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".activity.LoginActivity"></activity>
     </application>
 
 </manifest>
